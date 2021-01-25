@@ -1,105 +1,30 @@
-#+IMPORTANT: -*- mode: org -*-
-#+title: Benjamin Hansen's Portfolio
-#+language: en
-#+options: H:4 num:nil toc:nil \n:nil @:t ::t |:t ^:t *:t TeX:t LaTeX:t
-#+options: html-postamble:nil
-#+startup: fold entitiespretty
-#+setupfile: theme-bigblow.setup
-
-* Publish                                                          :noexport:
-
-#+begin_src elisp :results silent
-  (require 'git) ; for git commands  
-  ;; Benji's code to always show thie line numbers!
-  (global-visual-line-mode)
-  (defun commit-and-push-to-repo (&optional file-to-commit commit-message)
-    (setq commit-message (or commit-message "New upload."))
-    (setq file-to-commit (or file-to-commit "docs/index.html"))
-    (let ((git-repo "."))
-      (git-add file-to-commit)
-      (git-commit commit-message file-to-commit)
-      (git-fetch "origin")
-      (git-push "origin" "master")))
-#+end_src
-#+begin_src elisp :results silent
-  (defun commit-and-push-all (&optional commit-message)
-    (setq commit-message (or commit-message "New Upload."))
-    (let ((git-repo ".")
-          (all-files-to-push '(
-            "docs/index.html"
-            "docs/BenjaminRHansenResume.pdf"
-            "index.txt"
-            "docs/theme-bigblow.setup"))
-         )
-      (copy-file "../Resumes/BenjaminRHansenResume.pdf" "docs/BenjaminRHansenResume.pdf" t)
-      (copy-file "theme-bigblow.setup" "docs/theme-bigblow.setup" t)
-      (git-add
-        all-files-to-push)
-      (git-commit commit-message all-files-to-push)
-      (git-fetch "origin")
-      (git-push "origin" "master")))
-#+end_src
-#+begin_src elisp
-  (commit-and-push-to-repo "docs/" "Upload docs")
-#+end_src
-
-#+results:
-: To github.com:benjaminrhansen/Portfolio.git
-:    409d88e..5d7366a  master -> master
-
-#+begin_src elisp :results silent
-  (defun remove-all-todos-and-tags ()
-    (while (sp--search-forward-regexp "TODO")
-      (end-of-line)
-      (org-set-tags "")
-      (org-todo "")))
-      (defun remove-all-noexport-on-todos ()
-    (while (sp--search-forward-regexp "TODO")
-      (end-of-line)
-      (org-set-tags "")))
-  (defun add-all-noexport-on-todos ()
-    (while (sp--search-forward-regexp "TODO")
-      (end-of-line)
-      (org-set-tags "noexport")))
-#+end_src
-
-** Links
-
-  [[elisp:(browse-url-of-file (org-html-export-to-html))][Export to HTML and Browse]]
-  Save first
-  [[elisp:(org-html-export-to-html)][Export to HTML]]
-  [[elisp:(rename-file "index.html" "docs/" t)][Move to docs]]
-  [[elisp:(copy-file%20"../Resumes/BenjaminRHansenResume.pdf"%20"docs/"%20t)][Copy Resume PDF to docs]]
-  [[elisp:(commit-and-push-all)][Commit & Push All Possible New Files]]
-
-  [[https://benjaminrhansen.github.io/Portfolio/]]
-
-* About
+# About
   [[file:linkedinprofilecircle.png][file:./linkedinprofilecircle.png]]
 | [[https://linkedin.com/in/benjaminrhansen][LinkedIn Profile]]  | [[file:BenjaminRHansenResume.pdf][Resume]] | [[https://github.com/benjaminrhansen][GitHub Profile]]  |
-*** Self Introduction
-**** TLDR?
+## Self Introduction
+### TLDR?
      No problem. Here are some keywords that I feel describe me:
 
-     *Soft Skills*
+     ####Soft Skills
      - Quick Learner
      - Team Leader & Collaborator
      - Motivated Worker
-     *Hard Skills*
+     ####Hard Skills
      - Erlang
      - C++
      - JavaScript
      - Python
-**** A Longer Intro.
-**** My Beginnings
+### A Longer Intro.
+#### My Beginnings
+  Hi! I'm Benjamin Hansen. I am from Southern Utah. I became interested in computer science in high school where I took 5 computer courses. I went on a mission for my church, [[https://churchofjesuschrist.org][The Church of Jesus Christ of Latter-day Saints]], in Georgia, worked construction for 4 months, and then started my Bachelor's of Science in Computer Science at [[https://www.byui.edu/][Brigham Young University - Idaho]]. I chose Computer Science because of how it peaked my interest in my web design & development and programming course in high school. What really brought me confidence that I could do well in this field was from achieving the highest grade on the final exam of my entire programming class.
+
+  Ever since, programming paradigms and concepts have come easily to me. I can quickly learn languages and write programs in them. What I really love is Erlang. I feel like Erlang is almost as easy as Python. My initial solution to a problem is not hard to implement in Erlang, whereas in other languages it may take many revisions to my initial solution to solve the problem. I've created many modules with many functions in Erlang, for a class and on my free time. I prefer doing mathematical algorithms and functions in Erlang. I love its scalability and simplicity.
+
+  I've also used my C++ knowledge in 5 semesters of courses. After learning Python during my Machine Learning course, I learned R within a short span of time to do the final project. I feel confident I can learn any software and accomplish any task given to me.
 
 
-** TODO References                                                 :noexport:
-*** TODO Lee Barney                                                :noexport:
-*** TODO John Batty                                                :noexport:
-*** TODO Others...                                                 :noexport:
-* Side Projects
-** Automation of Summer Workflow
+# Side Projects
+## Automation of Summer Workflow
   This summer I didn't work like last because of COVID-19 and my desire to prepare for my future. I had a long list of goals I wanted to accomplish and skills I wanted to refine. Here are just a few of them:
 
   - Prepare for Calculus II: Refine my knowledge of Calculus
@@ -113,8 +38,8 @@
   Let's say I wanted to create a simple but fun Macbook Pro game, using the Script Editor (which I used for these JavaScript apps) but I ran out of time for that day to finish it. My memory is not all powerful, so there is a good chance the next day I'll forget I had that goal. The scheduling app saves all miscellaneous goals I add to a JSON so then on the next day when I go to schedule my daily plan, it will show me that I had that goal.
 
   All of this helped me tons in staying on track to achieving my goals from Aug. to mid Sept. of 2020.
-*** DynamicSchedule.scpt
-#+begin_src js
+### DynamicSchedule.scpt
+{
   // knowledge: all functions return something, either undefined if no return keyword
 // is used, or what is returned. Use the "return" keyword! Ugh... wish it would
 // just return what was last said
@@ -636,9 +561,9 @@ else {
 	}
 	"Have a fun, open day!";
 }
-#+end_src
-*** AddRecurringGoals.scpt
-#+begin_src js
+}
+### AddRecurringGoals.scpt
+{
   var app = Application.currentApplication();
 app.includeStandardAdditions = true;
 
@@ -762,10 +687,10 @@ const desktopString = app.pathTo("desktop").toString();
 const text = `${JSON.stringify(newRecurringGoalsToSave)}\n`;
 const file = `${desktopString}/recurringGoalsJSON.txt`;
 writeTextToFile(text, file, true); // true for overwrite
-#+end_src
-*** AddMiscGoals.scpt
-#+begin_src js
-  var app = Application.currentApplication();
+}
+### AddMiscGoals.scpt
+{
+var app = Application.currentApplication();
 app.includeStandardAdditions = true;
 
 // a high-order function to continue prompting the user for input while
@@ -889,10 +814,10 @@ const desktopString = app.pathTo("desktop").toString();
 const text = `${JSON.stringify(miscGoalsToSave)}\n`;
 const file = `${desktopString}/miscJSON.txt`;
 writeTextToFile(text, file, true); // true for overwrite
-#+end_src
-*** ShiftSchedule.scpt
+}
+### ShiftSchedule.scpt
   If I got off of schedule, I can re-shift my plans with this script.
-#+begin_src js
+{
   var app = Application.currentApplication();
 app.includeStandardAdditions = true;
 
@@ -1032,10 +957,10 @@ app.runScript(Path("/../Downloads/DeleteFromAnHourAgoUntilMidnight.scpt"));
 goalsToShift.reduce((eventStart, Goal) => {
 		return saveEvent(Goal.goal, eventStart, Goal.duration);
 	}, app.currentDate());
-#+end_src
-*** Goal Scheduler.scpt
+}
+### Goal Scheduler.scpt
   A menu-based interface for the user to choose which application to run
-#+begin_src js
+{
   // with help from the second post in https://stackoverflow.com/questions/28773207/how-to-get-posix-path-of-the-current-scripts-folder-in-javascript-for-automatio
 ObjC.import("Cocoa");
 var app = Application.currentApplication()
@@ -1111,46 +1036,31 @@ until(chooseFromListCancel,
 	runAppIfDesired,
 	// initial accumulator result
 	runAppIfDesired());
-#+end_src
-** TODO Hangman.app                                                :noexport:
-* TODO Class Projects                                              :noexport:
-** TODO Project Manager for Team of 3, Bit-by-Bit                  :noexport:
-** TODO Discrete Mathematics                                       :noexport:
-** TODO Mathematica for a Physics Project                          :noexport:
-** TODO Machine Learning Data Manipulation, Emotion                :noexport:
-** TODO Back Pain Reading Times                                    :noexport:
-*** TODO Design the Study                                          :noexport:
-*** TODO Collect the Data                                          :noexport:
-*** TODO Describe the Data                                         :noexport:
-*** TODO Make Inference                                            :noexport:
-*** TODO Take Action                                               :noexport:
-** TODO Team Lead for Team of 5 in Class-wide Project              :noexport:
-* Research
-** Research & Creative Works Conference
+}
+
+# Research
+## Research & Creative Works Conference
   As another side project (February 2020), I wanted to apply the frequent pondering on factoring I had done over the past year, which had increased the past 4 months because of my discrete mathematics teaching to students as a tutor and TA. I researched a proof for the conjecture I had that to find the next integer factor of a number and test if it's factor, one could simply subtract from the last factor checked the division of that previous factor and the current integer.
 
   The research is presented in the form of a website on my GitHub.io here: https://benjaminrhansen.github.io/Theorem/.
 
   Here is the theorem.
-*** Theorem
+### Theorem
     Let \(n \in \mathbb{n}\) For \(k\) = 1, \dots, \(\lfloor\sqrt{n}\rfloor\), let \(a_k\) be the real number
   such that \(a_{k}k = n\). The numbers \(a_1, a_2, \dots, a_{\lfloor\sqrt{n}\rfloor}\) satisfy the recurrence relation
 
   \(a_k = a_{k-1} \)\minus\( \frac{a_{k-1}}{k}\)
 
-** TODO Fractional Library                                         :noexport:
-** Multithreading: How many threads? - White Paper
+
+## Multithreading: How many threads? - White Paper
    In my Operating Systems class, our final project was a research paper on how many threads are needed for a given program to maximize performance.
 
    Here is the file for the white paper:
    file:./WhitePaper.pdf
-* TODO Graduation Plans                                            :noexport:
-*** TODO July 2021                                                 :noexport:
-*** TODO Internship                                                :noexport:
-*** TODO Senior Project                                            :noexport:
-* Blog
-** <2020-07-24 Fri>
-*** Debugging
+
+# Blog
+## <2020-07-24 Fri>
+*Debugging*
 Today I was doing quick coding in JavaScript, working on my Summer side project you can view here: [[https://benjaminrhansen.github.io/Portfolio/#outline-container-org4ad206c][Automate Summer Workflow]].
 It was all going fairly well until I created a whole block of code I understood logically would work (or should, because it made
 since to me) but it didn't. It would work on the first loop, and then not on any of the others. I was so confused. I displayed some
@@ -1159,8 +1069,8 @@ outputs, pondered what might be affecting the error given the message I was rece
 So, I had to get in to the nitty-gritty and *comment every single line*. After commenting thoroughly each little
 piece of the block, I got down to almost the last little bit without any idea what might have been wrong and found the bug.
 I thought, what is this doing here? How did it still run once and then quit. It was very weird. After deleting that extra unneeded stuff, it worked.
-*** Code Snippet before
-#+begin_src js
+###Code Snippet before
+{
   // keep prompting for the desired order until the reamainingGoals array is
   // empty
   const todaysOrderedGoals =
@@ -1188,9 +1098,9 @@ I thought, what is this doing here? How did it still run once and then quit. It 
                         priority + 1,
                         todaysOrderedGoals];
             }, [todaysGoals, 1, []])[2];
-#+end_src
-*** Code Snippet after
-#+begin_src js
+}
+### Code Snippet after
+{
   // keep prompting for the desired order until the reamainingGoals array is
   // empty
   // not the most efficient way. Too many mappings, one for each iteration....
@@ -1260,8 +1170,8 @@ I thought, what is this doing here? How did it still run once and then quit. It 
                 // end of main function for until. For the initial value of the accumulator,
                 // give todaysGoals list with the first goal as priority one and the empty list to build the ordered goals from
             }, [todaysGoals, 1, []])[2]; // return from the until returned list the third item, the ordered goals!
-#+end_src
-** <2020-08-18 Wed>
+}
+##<2020-08-18 Wed>
    The RSA cryptosystem works so beautifully but I wanted to see the mathematical theory behind the guarantee that the encryption and then decryption of any encoded message will result in the original message. Here is a proof I made to verify that the message is preserved when encrypted and then decrypted.
 
   Recall the "players" (variables) of RSA encryption. This table was created by Rick Neff in [[https://rickneff.github.io/metaphors-be-with-you.html#outline-container-org844de28][Metaphor's Be With You]] under section "Two".
@@ -1292,10 +1202,4 @@ From Metaphor's Be With You - Rick Neff.
      &=m
 \end{aligned}
 This last simplification needs some explanation, which I will explain hopefully soon...
-* Bio
-** My Beginnings
-  Hi! I'm Benjamin Hansen. I am from Southern Utah. I became interested in computer science in high school where I took 5 computer courses. I went on a mission for my church, [[https://churchofjesuschrist.org][The Church of Jesus Christ of Latter-day Saints]], in Georgia, worked construction for 4 months, and then started my Bachelor's of Science in Computer Science at [[https://www.byui.edu/][Brigham Young University - Idaho]]. I chose Computer Science because of how it peaked my interest in my web design & development and programming course in high school. What really brought me confidence that I could do well in this field was from achieving the highest grade on the final exam of my entire programming class.
 
-  Ever since, programming paradigms and concepts have come easily to me. I can quickly learn languages and write programs in them. What I really love is Erlang. I feel like Erlang is almost as easy as Python. My initial solution to a problem is not hard to implement in Erlang, whereas in other languages it may take many revisions to my initial solution to solve the problem. I've created many modules with many functions in Erlang, for a class and on my free time. I prefer doing mathematical algorithms and functions in Erlang. I love its scalability and simplicity.
-
-  I've also used my C++ knowledge in 5 semesters of courses. After learning Python during my Machine Learning course, I learned R within a short span of time to do the final project. I feel confident I can learn any software and accomplish any task given to me.
